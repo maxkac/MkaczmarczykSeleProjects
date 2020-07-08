@@ -14,6 +14,13 @@ import pages.mfinans.IndexPage;
 
 import java.util.Properties;
 
+/**
+ * Testy samodzielnie wykonanej strony 'mfinans.pl'. Strona powstała w celu wykorzystywania jej marketingowo dla lokalnej
+ * firmy. Ma ona spełniać 2 podstawowe funkje: wizytówka w sieci + prosty formularz kontaktowy dla klienta.
+ * Testy tej strony mają na celu ukazanie moich zdolności posługiwania się biblioteką Selenium jak również programowania
+ * w Javie. Selenium uczyłem się (i nadal uczę) samodzielnie, natomiast piersze kroki w programowaniu w Javie stawiałem
+ * w szkole programowania SDA jak i na studiach.
+ * */
 public class mFinansWebPageTest {
 
     @Parameters("browser")
