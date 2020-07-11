@@ -9,8 +9,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.testng.Assert;
 import waits.WaitForElement;
 
+import java.io.*;
 import java.util.Arrays;
 
 import static generic.LoggerStrings.VISIBLE;
@@ -72,6 +74,39 @@ public class BasePage {
         WebElement element = body.findElement(by);
         WaitForElement.waitUntilElementIsClickable(element);
         AssertWebElement.assertThat(element).isDisplayed();
+
+        return this;
+    }
+
+    public BasePage titleIs(String value) {
+        WaitForElement.waitUntilElementIsVisibleRefreshed(body);
+        String pageTitle = DriverManager.getWebDriver().getTitle();
+        Assert.assertEquals(pageTitle, value);
+        logger.info("Assertion passed, pageTitle == {}", value);
+
+        return this;
+    }
+
+    public BasePage elementIsVisible(By by) {
+        WaitForElement.waitUntilElementIsVisibleRefreshed(body);
+        WebElement element = body.findElement(by);
+        WaitForElement.waitUntilElementIsVisible(element);
+        AssertWebElement.assertThat(element).isDisplayed();
+
+        return this;
+    }
+
+    public BasePage compareTxtWithTxtFile(File file) {
+        WaitForElement.waitUntilElementIsVisibleRefreshed(body);
+        try(BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
+            String line = bufferedReader.readLine();
+            while (bufferedReader.readLine() != null){
+                AssertWebElement.assertThat(content).containsText(line);
+                line = bufferedReader.readLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         return this;
     }

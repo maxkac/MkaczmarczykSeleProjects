@@ -72,7 +72,9 @@ public class BrowserFactory {
             switch (browserType) {
                 case CHROME:
                     System.setProperty("webdriver.chrome.driver", LocalWebDriverProperties.getChromeWebDriverLocation());
-                    return new ChromeDriver();
+                    ChromeOptions options = new ChromeOptions();
+                    options.addArguments("--no-sandbox", "--disable-dev-shm-usage");
+                    return new ChromeDriver(options);
                 case FIREFOX:
                     System.setProperty("webdriver.gecko.driver", LocalWebDriverProperties.getFirefoxWebDriverLocation());
                     return new FirefoxDriver();

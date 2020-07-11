@@ -9,9 +9,11 @@ import io.qameta.allure.Description;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.testng.annotations.*;
+import pages.mfinans.CompanyPage;
 import pages.mfinans.ContactPage;
 import pages.mfinans.IndexPage;
 
+import java.io.File;
 import java.util.Properties;
 
 /**
@@ -81,6 +83,24 @@ public class mFinansWebPageTest {
                                 "ul. Poniatowskiego 6/33",
                                 "26-600 Radom")
                 .elementIsClickable(By.cssSelector("i.icon-phone"))
-                .elementIsClickable(By.cssSelector("i.icon-mail"));
+                .elementIsClickable(By.cssSelector("i.icon-mail"))
+                .elementIsVisible(By.id("contact"))
+                .titleIs("Kontakt");
+    }
+
+    @Test
+    public void companyShouldHaveThreeLinksInSideMenuHaveContactFormCompareTxtFileTest(){
+        DriverUtils.navigateToPage("http://mfinans.pl/kredytFirm.html");
+        CompanyPage companyPage = new CompanyPage();
+        companyPage
+                .pageContains("Kredyt hipoteczny")
+                .elementIsClickable(By.cssSelector("#menu-kredyty li:nth-child(1) > a"))
+                .pageContains("Kredyt gotówkowy")
+                .elementIsClickable(By.cssSelector("#menu-kredyty li:nth-child(2) > a"))
+                .pageContains("Kredyt firmowy")
+                .elementIsClickable(By.cssSelector("#menu-kredyty li:nth-child(3) > a"))
+                .elementIsVisible(By.id("contact"))
+                .titleIs("Kredyt gotówkowy")
+                .compareTxtWithTxtFile(new File("resources\\KFirmowyTXT.txt"));
     }
 }
