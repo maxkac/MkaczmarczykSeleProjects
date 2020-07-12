@@ -9,9 +9,7 @@ import io.qameta.allure.Description;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.testng.annotations.*;
-import pages.mfinans.CompanyPage;
-import pages.mfinans.ContactPage;
-import pages.mfinans.IndexPage;
+import pages.mfinans.*;
 
 import java.io.File;
 import java.util.Properties;
@@ -102,5 +100,37 @@ public class mFinansWebPageTest {
                 .elementIsVisible(By.id("contact"))
                 .titleIs("Kredyt gotówkowy")
                 .compareTxtWithTxtFile(new File("resources\\KFirmowyTXT.txt"));
+    }
+
+    @Test
+    public void loanPageShouldHaveTreeLinksInSideMenuHaveContactFormCompareFileTest(){
+        DriverUtils.navigateToPage("http://mfinans.pl/index.html");
+        BasePage basePage = new BasePage();
+        basePage
+                .pageContains("Kredyt hipoteczny")
+                .elementIsClickable(By.cssSelector("#menu-kredyty li:nth-child(1) > a"))
+                .pageContains("Kredyt gotówkowy")
+                .elementIsClickable(By.cssSelector("#menu-kredyty li:nth-child(2) > a"))
+                .pageContains("Kredyt firmowy")
+                .elementIsClickable(By.cssSelector("#menu-kredyty li:nth-child(3) > a"))
+                .elementContainsText(  By.className("wrapper"),
+                            "RATA OD 412 ZŁ",
+                                "za każde 100 tys. zł kredytu , RRSO 4,31%",
+                                "DO 35 LAT",
+                                "NISKI WKŁAD WŁASNY",
+                                "tylko 10 %",
+                                "Okres kredytowania")
+                .elementIsVisible(By.id("contact"))
+                .titleIs("Kredyt hipoteczny")
+                .compareTxtWithTxtFile(new File("resources\\KHipoTXT.txt"));
+    }
+
+    @Test
+    public void aboutPageShouldHaveFiveImgInGalleryAndOneImgInContentTest(){
+        DriverUtils.navigateToPage("http://mfinans.pl/aboutMe.html");
+        AboutPage aboutPage = new AboutPage();
+        aboutPage
+                .checkCountOfImgsInGallery()
+                .clickAndExitAllImgs();
     }
 }

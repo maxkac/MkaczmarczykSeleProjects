@@ -110,4 +110,15 @@ public class BasePage {
 
         return this;
     }
+
+    public BasePage elementContainsText(By by, String... args) {
+        WebElement element = DriverManager.getWebDriver().findElement(by);
+        WaitForElement.waitUntilElementIsVisibleRefreshed(element);
+        Arrays.asList(args).forEach(e -> {
+            AssertWebElement.assertThat(element).containsText(e);
+            logger.info(VISIBLE.getMsg());
+        });
+
+        return this;
+    }
 }
