@@ -64,7 +64,7 @@ public class mFinansWebPageTest {
                 .pageContains("Terms of Use")
                 .pageContains("Report a map error")
                 .pageContains("View larger map")
-                .elementIsClickable(By.cssSelector("a.google-maps-link"))
+                .elementIsClickable(By.cssSelector("div.google-maps-link a"))
                 .switchToParentFrame();
     }
 
@@ -133,4 +133,20 @@ public class mFinansWebPageTest {
                 .checkCountOfImgsInGallery()
                 .clickAndExitAllImgs();
     }
+
+    @Test
+    public void clickImgAndCheckTitleTest(){
+        DriverUtils.navigateToPage("http://mfinans.pl/aboutMe.html");
+        AboutPage aboutPage = new AboutPage();
+        aboutPage
+                .clickImgDetailsContains(3, "Certyfikat - EFEKTYWNOŚĆ DORADCY FINANSOWEGO - NOTUS Doradcy Finansowi")
+                .clickImgDetailsContains(5, "Certyfikat ukończenia szkolenia bankowego - Unilinkcash")
+                .clickImgDetailsContains(1, "Zaświadczenie o ukończeniu kursu - NOTUS Finanse");
+    }
+
+    @Test
+    public void formContactTest(){
+        ContactFormPage formPage = new ContactFormPage();
+    }
+
 }
