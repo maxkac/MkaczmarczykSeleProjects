@@ -29,6 +29,17 @@ public class AssertWebElement extends AbstractAssert<AssertWebElement, WebElemen
         logger.info("WebElement was displayed!");
         return this;
     }
+
+    public AssertWebElement isSelected() {
+        logger.info("Checking if element is selected.");
+        isNotNull();
+
+        if(!actual.isSelected()){
+            failWithMessage("Element was not selected!");
+        }
+        logger.info("WebElement was selected!");
+        return this;
+    }
     //Metoda do sprawdzania czy element jest wyświetlony
     public AssertWebElement isNotDisplayed(){
         logger.info("Checking if element is displayed");
@@ -47,7 +58,7 @@ public class AssertWebElement extends AbstractAssert<AssertWebElement, WebElemen
         isNotNull();
 
         String actualElementText = actual.getText();
-        if(!actualElementText.equals(expectedTextValue) && actualElementText != null){
+        if(!actualElementText.equals(expectedTextValue)){
             failWithMessage("Element text was <%s> expecting to be <%s>!", actualElementText, expectedTextValue);
         }
 
@@ -75,7 +86,7 @@ public class AssertWebElement extends AbstractAssert<AssertWebElement, WebElemen
         isNotNull();
 
         String actualElementText = actual.getText().toLowerCase();
-        if(!actualElementText.contains(expectedTextValue.toLowerCase()) && actualElementText != null){
+        if(!actualElementText.contains(expectedTextValue.toLowerCase())){
             failWithMessage("Element text was <%s> expecting to be <%s>!", actualElementText, expectedTextValue);
         }
 
@@ -88,7 +99,7 @@ public class AssertWebElement extends AbstractAssert<AssertWebElement, WebElemen
         isNotNull();
 
         String actualElementText = actual.getText().toLowerCase();
-        if(actualElementText.contains(expectedTextValue.toLowerCase()) && actualElementText != null){
+        if(actualElementText.contains(expectedTextValue.toLowerCase())){
             failWithMessage("Element text was <%s> expecting to be not <%s>!", actualElementText, expectedTextValue);
         }
 
@@ -103,7 +114,7 @@ public class AssertWebElement extends AbstractAssert<AssertWebElement, WebElemen
         isNotNull();
 
         String actualElementText = actual.getText().toLowerCase();
-        if((!actualElementText.contains(expectedTextValue.toLowerCase()) && !actualElementText.contains(expectedTextValue2.toLowerCase())) && actualElementText != null){
+        if(!actualElementText.contains(expectedTextValue.toLowerCase()) && !actualElementText.contains(expectedTextValue2.toLowerCase())){
             failWithMessage("Element text was <%s> expecting to contains <%s>!", actualElementText, expectedTextValue);
         }
 

@@ -5,7 +5,8 @@ public enum LoggerStrings {
     SCROLL("Scroll to element {}"),
     EDIT("Element is editable"),
     VISIBLE("Element is visible"),
-    CLICK("Element is clickable, try to click...{}");
+    CLICK("Element is clickable, try to click...{}"),
+    CLEAR("Input clear");
 
     private String msg;
 

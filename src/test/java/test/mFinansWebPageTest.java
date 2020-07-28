@@ -145,8 +145,67 @@ public class mFinansWebPageTest {
     }
 
     @Test
-    public void formContactTest(){
+    public void fillFullPositiveFormContactTest(){
+        DriverUtils.navigateToPage("http://mfinans.pl/aboutMe.html");
         ContactFormPage formPage = new ContactFormPage();
+        formPage
+                .typeName("Test")
+                .typeMail("test@test.te")
+                .typePhone("600600600")
+                .clickAllAgree()
+                .clickSendContact()
+                .titleIs("Kredyt hipoteczny");
+    }
+
+    @Test
+    public void readAllAgreeTest(){
+        DriverUtils.navigateToPage("http://mfinans.pl/kredytFirm.html");
+        ContactFormPage formPage = new ContactFormPage();
+        formPage
+                .showAllInfo()
+                .compareTxtWithTxtFile(new File("resources\\agrees.txt"));
+    }
+
+    @Test
+    public void trySendOnlyNameAndPhoneShouldViewAgreementInfoTest(){
+        DriverUtils.navigateToPage("http://mfinans.pl/kredytFirm.html");
+        ContactFormPage formPage = new ContactFormPage();
+        formPage
+                .typeName("Test")
+                .typePhone("600600600")
+                .clickSendContact()
+                .pageContains("Nie zaznaczono wszytskich zgód.")
+                .pageContains("Bardzo proszę o zaznaczenie wszystkich zgód przy wysyłaniu prośby o kontakt.")
+                .elementIsClickable(By.cssSelector("a"));
+    }
+
+    @Test
+    public void trySendWithoutMailWithAllAgreesShouldViewMailValidationTest(){
+        DriverUtils.navigateToPage("http://mfinans.pl/kredytFirm.html");
+        ContactFormPage formPage = new ContactFormPage();
+        formPage
+                .typeName("Test")
+                .typePhone("600600600")
+                .clickAllAgree()
+                .clickSendContact()
+                .pageContains("Niepoprawny format adresu e-mail.")
+                .pageContains("Proszę podać prawidłowy, np. mail123@vp.pl")
+                .elementIsClickable(By.cssSelector("a"));
+    }
+
+    @Test
+    public void trySendWithInvalidMailShouldViewMailValidationTest(){
+        DriverUtils.navigateToPage("http://mfinans.pl/kredytFirm.html");
+        ContactFormPage formPage = new ContactFormPage();
+        formPage
+                .typeName("Test")
+                .typePhone("600600600")
+                .typeMail("aaaA")
+                .clickAllAgree()
+                .clickSendContact()
+                .pageContains("Niepoprawny format adresu e-mail.")
+                .pageContains("Proszę podać prawidłowy, np. mail123@vp.pl")
+                .elementIsClickable(By.cssSelector("a"));
     }
 
 }
