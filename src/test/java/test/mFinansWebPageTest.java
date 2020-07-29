@@ -147,6 +147,10 @@ public class mFinansWebPageTest {
     @Test
     public void fillFullPositiveFormContactTest(){
         DriverUtils.navigateToPage("http://mfinans.pl/aboutMe.html");
+        requestForContact();
+    }
+
+    private void requestForContact() {
         ContactFormPage formPage = new ContactFormPage();
         formPage
                 .typeName("Test")
@@ -208,4 +212,42 @@ public class mFinansWebPageTest {
                 .elementIsClickable(By.cssSelector("a"));
     }
 
+    @Test
+    public void showAllAgreesAndCloseTest(){
+        DriverUtils.navigateToPage("http://mfinans.pl/kredytFirm.html");
+        ContactFormPage formPage = new ContactFormPage();
+        formPage
+                .showAllInfo()
+                .closeAllInfo();
+    }
+
+    @Test
+    public void typeAllInputAndFirstAgreeShouldViewMainPageTest(){
+        /*only rodo agree is obligatory to send msg
+         */
+        ContactFormPage formPage = new ContactFormPage();
+        formPage
+                .typeName("Test")
+                .typePhone("600600600")
+                .typeMail("mail123@vp.pl")
+                .clickAgree(1)
+                .clickSendContact()
+                .titleIs("Kredyt hipoteczny");
+    }
+
+    @Test
+    public void typeAllInputAndAllAgreesButNotFirstShouldViewAgreementInfoTest(){
+        ContactFormPage formPage = new ContactFormPage();
+        formPage
+                .typeName("Test")
+                .typePhone("600600600")
+                .typeMail("mail123@vp.pl")
+                .clickAgree(2)
+                .clickAgree(3)
+                .clickAgree(4)
+                .clickSendContact()
+                .pageContains("Nie zaznaczono wszytskich zgód.")
+                .pageContains("Bardzo proszę o zaznaczenie wszystkich zgód przy wysyłaniu prośby o kontakt.")
+                .elementIsClickable(By.cssSelector("a"));
+    }
 }

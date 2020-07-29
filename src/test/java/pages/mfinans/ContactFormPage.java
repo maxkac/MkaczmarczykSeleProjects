@@ -4,13 +4,17 @@ import drivers.manager.DriverManager;
 import generic.assertions.AssertWebElement;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.testng.Assert;
 import waits.WaitForElement;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 import static generic.LoggerStrings.*;
 
@@ -52,6 +56,7 @@ public class ContactFormPage extends BasePage {
     public ContactFormPage typeName(String name) {
         JavascriptExecutor executor = (JavascriptExecutor) DriverManager.getWebDriver();
         executor.executeScript("arguments[0].scrollIntoView();", contactForm);
+        logger.info(SCROLL.getMsg(), contactForm);
         WaitForElement.waitUntilElementIsClickable(nameInput);
         logger.info(EDIT.getMsg());
         nameInput.clear();
@@ -95,11 +100,38 @@ public class ContactFormPage extends BasePage {
 
     public ContactFormPage showAllInfo() {
         WaitForElement.waitUntilElementIsClickable(moreInfoAgrees.get(0));
+        JavascriptExecutor executor = (JavascriptExecutor) DriverManager.getWebDriver();
+        AtomicInteger count = new AtomicInteger();
         moreInfoAgrees.forEach(element -> {
             WaitForElement.waitUntilElementIsClickable(element);
             logger.info(CLICK.getMsg());
+            executor.executeScript("arguments[0].scrollIntoView();", element);
+            logger.info(SCROLL.getMsg(), element);
             element.click();
+            List<WebElement> elements = agreeSection.findElements(By.cssSelector("span")).stream()
+                    .filter(WebElement::isDisplayed).collect(Collectors.toList());
+            logger.info("List of crosses size = {}", elements.size());
+            Assert.assertEquals(count.incrementAndGet(), elements.size());
         });
+        return this;
+    }
+
+    public ContactFormPage closeAllInfo() {
+        WaitForElement.waitUntilElementIsClickable(closeMoreInfoAgrees.get(0));
+        JavascriptExecutor executor = (JavascriptExecutor) DriverManager.getWebDriver();
+        executor.executeScript("arguments[0].scrollIntoView();", moreInfoAgrees.get(0));
+        logger.info(SCROLL.getMsg(), moreInfoAgrees.get(0));
+        AtomicInteger count = new AtomicInteger(4);
+        closeMoreInfoAgrees.forEach(crossBtn -> {
+            WaitForElement.waitUntilElementIsClickable(crossBtn);
+            logger.info(CLICK.getMsg());
+            crossBtn.click();
+            List<WebElement> elements = agreeSection.findElements(By.cssSelector("span")).stream()
+                    .filter(WebElement::isDisplayed).collect(Collectors.toList());
+            logger.info("List of crosses size = {}", elements.size());
+            Assert.assertEquals(count.decrementAndGet(), elements.size());
+        });
+
         return this;
     }
 
@@ -109,5 +141,13 @@ public class ContactFormPage extends BasePage {
         sendBtn.click();
 
         return new IndexPage();
+    }
+
+    public ContactFormPage clickAgree(int agreeIndex) {
+        WaitForElement.waitUntilElementIsClickable(checkBoxesAgree.get(agreeIndex - 1));
+        logger.info(CLICK.getMsg());
+        checkBoxesAgree.get(agreeIndex - 1).click();
+        AssertWebElement.assertThat(checkBoxesAgree.get(agreeIndex - 1)).isSelected();
+        return this;
     }
 }
