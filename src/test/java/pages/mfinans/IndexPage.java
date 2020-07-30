@@ -42,6 +42,7 @@ public class IndexPage extends BasePage {
     return this;
     }
 
+    @Step("Open all links from side menu (all kind of loan).")
     public IndexPage openAllLinksFromContent() {
         List<WebElement> linksList = listWithLoanKind.findElements(By.cssSelector("a"));
         List<String> loanKindsStrings = linksList.stream()

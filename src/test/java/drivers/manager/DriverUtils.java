@@ -8,7 +8,7 @@ public class DriverUtils {
         DriverManager.getWebDriver().manage().window().maximize();
     }
 
-    @Step("Przejście na stronę: {urlPage}")
+    @Step("Navigate to page: {urlPage}")
     public static void navigateToPage(String urlPage){
         DriverManager.getWebDriver().navigate().to(urlPage);
     }

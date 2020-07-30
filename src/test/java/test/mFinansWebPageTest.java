@@ -20,9 +20,13 @@ import java.util.Properties;
  * Testy tej strony mają na celu ukazanie moich zdolności posługiwania się biblioteką Selenium jak również programowania
  * w Javie. Selenium uczyłem się (i nadal uczę) samodzielnie, natomiast piersze kroki w programowaniu w Javie stawiałem
  * w szkole programowania SDA jak i na studiach.
+ *
+ * http://www.kurshtml.edu.pl/html/przyklad,formularze.html
  * */
 public class mFinansWebPageTest {
 
+    @Description("Open browser with properties from 'configuration.properties'. Set WebDriver by browser, initial " +
+            "browser configuration (maximize()). Navigate to main url: http://mfinans.pl/")
     @Parameters("browser")
     @BeforeClass
     public void beforeClass(@Optional BrowserType browserType) {
@@ -86,6 +90,7 @@ public class mFinansWebPageTest {
                 .titleIs("Kontakt");
     }
 
+    @Description("Company page should have 3 links in side menu, compare content of page with source.")
     @Test
     public void companyShouldHaveThreeLinksInSideMenuHaveContactFormCompareTxtFileTest(){
         DriverUtils.navigateToPage("http://mfinans.pl/kredytFirm.html");
@@ -102,6 +107,7 @@ public class mFinansWebPageTest {
                 .compareTxtWithTxtFile(new File("resources\\KFirmowyTXT.txt"));
     }
 
+    @Description("Loan page should have 3 links in side menu, compare content of page with source.")
     @Test
     public void loanPageShouldHaveTreeLinksInSideMenuHaveContactFormCompareFileTest(){
         DriverUtils.navigateToPage("http://mfinans.pl/index.html");
@@ -125,6 +131,7 @@ public class mFinansWebPageTest {
                 .compareTxtWithTxtFile(new File("resources\\KHipoTXT.txt"));
     }
 
+    @Description("About page should have 5 img in gallery, click and close all images.")
     @Test
     public void aboutPageShouldHaveFiveImgInGalleryAndOneImgInContentTest(){
         DriverUtils.navigateToPage("http://mfinans.pl/aboutMe.html");
@@ -134,6 +141,7 @@ public class mFinansWebPageTest {
                 .clickAndExitAllImgs();
     }
 
+    @Description("Open img by index and check title of img.")
     @Test
     public void clickImgAndCheckTitleTest(){
         DriverUtils.navigateToPage("http://mfinans.pl/aboutMe.html");

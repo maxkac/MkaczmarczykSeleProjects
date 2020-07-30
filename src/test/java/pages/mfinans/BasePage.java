@@ -60,6 +60,7 @@ public class BasePage {
         return this;
     }
 
+    @Step("Back to parent frame.")
     public BasePage switchToParentFrame() {
         WaitForElement.waitUntilElementIsVisibleRefreshed(body);
         DriverManager.getWebDriver().switchTo().parentFrame();
@@ -72,47 +73,58 @@ public class BasePage {
     public BasePage elementIsClickable(By by) {
         WaitForElement.waitUntilElementIsVisibleRefreshed(body);
         WebElement element = body.findElement(by);
+        logger.info("Element {} found.", element);
         WaitForElement.waitUntilElementIsClickable(element);
+        logger.info("Element {} is clickable.", element);
         AssertWebElement.assertThat(element).isDisplayed();
 
         return this;
     }
 
+    @Step("Check that title is expected.")
     public BasePage titleIs(String value) {
         WaitForElement.waitUntilElementIsVisibleRefreshed(body);
         String pageTitle = DriverManager.getWebDriver().getTitle();
+        logger.info("Title found.");
         Assert.assertEquals(pageTitle, value);
         logger.info("Assertion passed, pageTitle == {}", value);
 
         return this;
     }
 
+    @Step("Check that element ({by}) is visible.")
     public BasePage elementIsVisible(By by) {
         WaitForElement.waitUntilElementIsVisibleRefreshed(body);
         WebElement element = body.findElement(by);
+        logger.info("Element {} found.", element);
         WaitForElement.waitUntilElementIsVisible(element);
+        logger.info(VISIBLE.getMsg());
         AssertWebElement.assertThat(element).isDisplayed();
 
         return this;
     }
 
+    @Step("Compare page {content} with text from text file.")
     public BasePage compareTxtWithTxtFile(File file) {
         WaitForElement.waitUntilElementIsVisibleRefreshed(body);
         try(BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
-            String line = bufferedReader.readLine();
             while (bufferedReader.readLine() != null){
+                String line = bufferedReader.readLine();
+                logger.info("Read line ({}) from file ({})", line, file.getAbsolutePath());
                 AssertWebElement.assertThat(content).containsText(line);
-                line = bufferedReader.readLine();
             }
         } catch (IOException e) {
+            logger.error(e.getMessage());
             e.printStackTrace();
         }
 
         return this;
     }
 
+    @Step("Check that element by ({by}) contains text.")
     public BasePage elementContainsText(By by, String... args) {
         WebElement element = DriverManager.getWebDriver().findElement(by);
+        logger.info("Element {} found.", element);
         WaitForElement.waitUntilElementIsVisibleRefreshed(element);
         Arrays.asList(args).forEach(e -> {
             AssertWebElement.assertThat(element).containsText(e);
