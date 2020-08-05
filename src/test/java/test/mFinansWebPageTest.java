@@ -152,12 +152,14 @@ public class mFinansWebPageTest {
                 .clickImgDetailsContains(1, "Zaświadczenie o ukończeniu kursu - NOTUS Finanse");
     }
 
+    @Description("Filling in the form with correct data, sending the inquiry.")
     @Test
     public void fillFullPositiveFormContactTest(){
         DriverUtils.navigateToPage("http://mfinans.pl/aboutMe.html");
         requestForContact();
     }
 
+    @Description("Sending the inquiry.")
     private void requestForContact() {
         ContactFormPage formPage = new ContactFormPage();
         formPage
@@ -169,6 +171,7 @@ public class mFinansWebPageTest {
                 .titleIs("Kredyt hipoteczny");
     }
 
+    @Description("Click all 'More info', and compare page with resource.")
     @Test
     public void readAllAgreeTest(){
         DriverUtils.navigateToPage("http://mfinans.pl/kredytFirm.html");
@@ -178,6 +181,7 @@ public class mFinansWebPageTest {
                 .compareTxtWithTxtFile(new File("resources\\agrees.txt"));
     }
 
+    @Description("Try submit form without mail and agrees, check that agree warring page is visible.")
     @Test
     public void trySendOnlyNameAndPhoneShouldViewAgreementInfoTest(){
         DriverUtils.navigateToPage("http://mfinans.pl/kredytFirm.html");
@@ -191,6 +195,7 @@ public class mFinansWebPageTest {
                 .elementIsClickable(By.cssSelector("a"));
     }
 
+    @Description("Try submit form without mail, check that mail warring page is visible.")
     @Test
     public void trySendWithoutMailWithAllAgreesShouldViewMailValidationTest(){
         DriverUtils.navigateToPage("http://mfinans.pl/kredytFirm.html");
@@ -205,6 +210,7 @@ public class mFinansWebPageTest {
                 .elementIsClickable(By.cssSelector("a"));
     }
 
+    @Description("Try submit form with incorrect mail, check that mail warring page is visible.")
     @Test
     public void trySendWithInvalidMailShouldViewMailValidationTest(){
         DriverUtils.navigateToPage("http://mfinans.pl/kredytFirm.html");
@@ -220,6 +226,7 @@ public class mFinansWebPageTest {
                 .elementIsClickable(By.cssSelector("a"));
     }
 
+    @Description("Click all 'More info' and close.")
     @Test
     public void showAllAgreesAndCloseTest(){
         DriverUtils.navigateToPage("http://mfinans.pl/kredytFirm.html");
@@ -229,6 +236,7 @@ public class mFinansWebPageTest {
                 .closeAllInfo();
     }
 
+    @Description("Submit form with all inputs and selected only first checkbox should open index page.")
     @Test
     public void typeAllInputAndFirstAgreeShouldViewMainPageTest(){
         /*only rodo agree is obligatory to send msg
@@ -243,6 +251,7 @@ public class mFinansWebPageTest {
                 .titleIs("Kredyt hipoteczny");
     }
 
+    @Description("Submit with all inputs and all checkboxes (first not) should open agrees warring page.")
     @Test
     public void typeAllInputAndAllAgreesButNotFirstShouldViewAgreementInfoTest(){
         ContactFormPage formPage = new ContactFormPage();

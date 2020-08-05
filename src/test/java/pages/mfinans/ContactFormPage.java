@@ -2,6 +2,7 @@ package pages.mfinans;
 
 import drivers.manager.DriverManager;
 import generic.assertions.AssertWebElement;
+import io.qameta.allure.Step;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
@@ -53,6 +54,7 @@ public class ContactFormPage extends BasePage {
         PageFactory.initElements(DriverManager.getWebDriver(), this);
     }
 
+    @Step("TYpe name from parameter.")
     public ContactFormPage typeName(String name) {
         JavascriptExecutor executor = (JavascriptExecutor) DriverManager.getWebDriver();
         executor.executeScript("arguments[0].scrollIntoView();", contactForm);
@@ -66,6 +68,7 @@ public class ContactFormPage extends BasePage {
         return this;
     }
 
+    @Step("TYpe mail from parameter.")
     public ContactFormPage typeMail(String mail) {
         WaitForElement.waitUntilElementIsClickable(emailInput);
         logger.info(EDIT.getMsg());
@@ -76,6 +79,7 @@ public class ContactFormPage extends BasePage {
         return this;
     }
 
+    @Step("TYpe phone number from parameter.")
     public ContactFormPage typePhone(String phone) {
         WaitForElement.waitUntilElementIsClickable(phoneInput);
         logger.info(EDIT.getMsg());
@@ -86,6 +90,7 @@ public class ContactFormPage extends BasePage {
         return this;
     }
 
+    @Step("Select all agree")
     public ContactFormPage clickAllAgree() {
         WaitForElement.waitUntilElementIsClickable(checkBoxesAgree.get(0));
         checkBoxesAgree.forEach(element -> {
@@ -98,6 +103,7 @@ public class ContactFormPage extends BasePage {
         return this;
     }
 
+    @Step("Click all 'More info'.")
     public ContactFormPage showAllInfo() {
         WaitForElement.waitUntilElementIsClickable(moreInfoAgrees.get(0));
         JavascriptExecutor executor = (JavascriptExecutor) DriverManager.getWebDriver();
@@ -116,6 +122,7 @@ public class ContactFormPage extends BasePage {
         return this;
     }
 
+    @Step("Click all close 'More info'.")
     public ContactFormPage closeAllInfo() {
         WaitForElement.waitUntilElementIsClickable(closeMoreInfoAgrees.get(0));
         JavascriptExecutor executor = (JavascriptExecutor) DriverManager.getWebDriver();
@@ -135,6 +142,7 @@ public class ContactFormPage extends BasePage {
         return this;
     }
 
+    @Step("Click 'Send'")
     public IndexPage clickSendContact() {
         WaitForElement.waitUntilElementIsClickable(sendBtn);
         logger.info(CLICK.getMsg());
@@ -143,6 +151,7 @@ public class ContactFormPage extends BasePage {
         return new IndexPage();
     }
 
+    @Step("Click index of agrees, index in parameter.")
     public ContactFormPage clickAgree(int agreeIndex) {
         WaitForElement.waitUntilElementIsClickable(checkBoxesAgree.get(agreeIndex - 1));
         logger.info(CLICK.getMsg());
